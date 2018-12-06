@@ -1,0 +1,9 @@
+[database]
+server = "localhost"
+port = 3306
+connection_max = 5
+
+[redis]
+server = "localhost"
+port = 6309
+connection_max = 5
