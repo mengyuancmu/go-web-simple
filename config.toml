@@ -1,9 +1,12 @@
 [database]
-server = "localhost"
+server = "10.12.40.208"
 port = 3306
 connection_max = 5
+user = "300user"
+password = "bo568$s1d3a"
+db_name = "300cn_v1"
 
 [redis]
-server = "localhost"
+server = "10.12.40.208"
 port = 6309
 connection_max = 5
