@@ -1,0 +1,12 @@
+<html>
+	<body>
+		<div>{{.Post.Content}}</div>
+		<div>
+			<ul>
+				{{range $Comment:=$.Comments}}
+					<li>{{$Comment.Content}}</li>
+				{{end}}
+			</ul>
+		</div>
+	</body>
+</html>
