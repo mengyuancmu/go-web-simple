@@ -49,31 +49,31 @@ func main() {
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/post/:id", func(c *gin.Context) {
 		postId := c.Param("id")
-		postRs := make(chan *post)
+		postRs := make(chan post)
 		go func() {
 			var postObj post
 			row := db.QueryRow("select * from tb_post where id = ?", postId)
-			row.Scan(&postObj)
-			postRs <- &postObj
+			row.Scan(&postObj.Id, &postObj.Content)
+			postRs <- postObj
 		}()
-		commentRs := make(chan *[]*comment)
+		commentRs := make(chan []comment)
 		go func() {
-			commentList := make([]*comment, 5)
-			rows, err := db.Query("select * from tb_comment where post_id = ?", postId)
+			var commentList []comment
+			rows, err := db.Query("select id,content from tb_comment where post_id = ?", postId)
 			if err != nil {
 				panic(err)
 			}
 			defer rows.Close()
-			var commentObj comment
 			for rows.Next() {
-				rows.Scan(&commentObj)
-				commentList = append(commentList, &commentObj)
+				var commentObj comment
+				rows.Scan(&commentObj.Id, &commentObj.Content)
+				commentList = append(commentList, commentObj)
 			}
-			commentRs <- &commentList
+			commentRs <- commentList
 		}()
 		postInfo := <-postRs
 		commentListInfo := <-commentRs
-		panic(postInfo.Content)
+
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
 			"Post":     postInfo,
 			"Comments": commentListInfo,
