@@ -6,7 +6,7 @@ user = "root"
 password = "jdmx8784"
 db_name = "mygotest"
 
-[redis]
-server = "10.12.40.208"
-port = 6309
+[rs]
+server = "127.0.0.1"
+port = 6379
 connection_max = 5
